@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 28.07.2023 17:31:27
+// Create Date: 12.08.2023 17:30:25
 // Design Name: 
 // Module Name: PC
 // Project Name: 
@@ -19,6 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+
 module PC#
 (   
     parameter bitsPC=32
@@ -27,18 +28,16 @@ module PC#
     input clk,
     input ena,
     input reset,
-    input db_ena,//control de ena PC desde debug unit (clk enable)
-    input [bitsPC-1:0] inBits, // entrada de bits
-    input PC_end,// fin del contador de programa - Finalizacion de conteo PC
+    input db_ena,               //control de ena PC desde debug unit (clk enable)
+    input [bitsPC-1:0] inBits,  // entrada de bits
+    input PC_end,               // fin del contador de programa - Finalizacion de conteo PC
     output reg [bitsPC-1:0]PC
     
 );
-// Parametros internos
-//parameter msb =bitsPC -1; // bit mas sigficativo
 // Variables internas
-reg [bitsPC -1:0]PC_next;
-reg PC_end_reg; // registro de bandera de finalizacion
-reg PC_end_next;
+reg [(bitsPC -1):0]PC_next;
+reg PC_end_reg = 1'b0; // registro de bandera de finalizacion
+reg PC_end_next= 1'b0;
 
 // Logica avance del PC y logica de fin del PC
 always@(*)
@@ -58,7 +57,7 @@ begin
 end
 
 // Avance del PC
-always@(posedge clk,posedge reset)
+always@(posedge clk or posedge reset)
 begin 
 		if(reset)
 			PC <= 0;
@@ -68,7 +67,7 @@ begin
 end
 
 // Finalizacion de conteo PC
-always@(negedge clk, posedge reset)
+always@(negedge clk or posedge reset)
 begin
 	if(reset)
 		PC_end_reg <= 1'b0;
@@ -76,5 +75,4 @@ begin
 	else
 		PC_end_reg <= PC_end_next;
 end
-
 endmodule

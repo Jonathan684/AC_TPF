@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 28.07.2023 21:31:47
+// Create Date: 12.08.2023 17:29:40
 // Design Name: 
-// Module Name: mux2a1
+// Module Name: Add
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -20,17 +20,17 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module mux2a1#
+module Add#
 (
-    parameter nbits = 32
-)
+    parameter nbits=32
+) //numero de bits
 (
-    input   wire [nbits -1:0] A,  // Entradas modulo
-    input   wire [nbits -1:0] B,  // Entradas modulo
-    input   wire sel,             // Entradas modulo
-    output  wire [nbits -1:0] salida // Salidas modulo
-);
-// Logica multiplexor
-assign salida = (sel) ? A: B;
+    input wire [nbits -1:0] A,// Entrada modulo
+    input wire [nbits -1:0] B,
+    output reg signed [nbits -1:0] Result// Salidas modulo
+ );
 
+always @(*)
+		Result=A+B;//ADD
 endmodule
+
